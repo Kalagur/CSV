@@ -16,3 +16,10 @@
 ***ERROR: Couldn't connect to Docker daemon at http+docker://localunixsocket - is it running?
 If it's at a non-standard location, specify the URL with the DOCKER_HOST environment variable.***
 
+То нужно добавить своего юзера в группу docker, для этого выполнить:
+> sudo gpasswd -a $USER docker
+
+и перезапустить систему.
+
+
+
