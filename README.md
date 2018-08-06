@@ -12,6 +12,7 @@
 > docker-compose up -d --build
 
 Если при выполнении выводится сообщение:
+
 ***ERROR: Couldn't connect to Docker daemon at http+docker://localunixsocket - is it running?
 If it's at a non-standard location, specify the URL with the DOCKER_HOST environment variable.***
 
