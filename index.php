@@ -89,12 +89,11 @@ $arrFromConf = include "conf.php";
 
 
 if(isset($options['i']) || isset($options['c'])) {
-
+    $row = 1;
     $input = fopen("input.csv", "r") or die("Ошибка");
     $out = fopen("output.csv", "w") or die("Ошибка");
     for ($i = 0; $data = fgetcsv($input, 1000, ","); $i++) {
-        $num = count($data);
-        echo "<h3>Строка $i. Полей в строке: $num</h3>";
+        $row++;
         foreach ($data as $k => $v) {
             if (!array_key_exists($k, $arrFromConf)) {
                 $dataFileOutput[$k] = $v;
@@ -124,10 +123,10 @@ if(isset($options['i']) || isset($options['c'])) {
             }
         }
 
-        for ($c = 0; $c < $num; $c++) {
-            echo "[$c]: $data[$c]<br>";
-        }
+        fputcsv($out, $dataFileOutput);
     }
+    echo "Запись в файл успешно произведена \n";
+
 
     fclose($input);
     fclose($out);
