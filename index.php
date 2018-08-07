@@ -36,55 +36,6 @@ if(isset($options['h']) || isset($options['help'])) {
 }
 
 
-//    if(file_exists("input.csv")) {
-//
-//        $row = 1;
-//        $fh = fopen("output.csv", "w");
-//        $write = file_get_contents('input.csv');
-//        echo $write;
-//        if (($handle = fopen("input.csv", "r")) !== false) {
-//
-//                while (($data = fgetcsv($handle)) !== false) {
-//                    $num = count($data);
-//                    $row++;
-//                    for ($c = 0; $c < $num; $c++) {
-//                        $text = $data[$c];
-//                        $write = fwrite($fh, $text);
-//                    }
-//                }
-//                fclose($fh);
-//                fclose($handle);
-//
-//        } else {
-//            echo "Не найден файл для чтения \n";
-//        }
-//    }
-
-
-
-// Открывается инпут. Происходит запись данных с инпута в аутпут. Файл может переполняться
-
-//if(isset($options['i']) || isset($options['c']) || isset($options['o'])) {
-//    $handle = fopen("input.csv", "r");
-//
-//    if ($handle) {
-//        while (($buffer = fgets($handle)) !== false) {
-//            $data = explode(',', $buffer);
-//
-//            $fh = fopen("output.csv", "a");
-////            $buffer = $faker->name;
-//            $write = fwrite($fh, $buffer);
-//            fclose($fh);
-//
-//        }
-//
-//        fclose($handle);
-//    }
-//}
-
-
-
-
 $arrFromConf = include "conf.php";
 
 
