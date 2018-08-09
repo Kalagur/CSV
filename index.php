@@ -43,6 +43,7 @@ if (isset($options['h']) || isset($options['help'])) {
 --skip           пропускать модификацию первой строки исходного csv
 --strict         проверять, что исходный файл содержит необходимое количество описанных в конфигурационном файле столбцов. При несоответствии выдавать ошибку.
 -h|--help        вывести справку \n";
+	exit();
 }
 
 
@@ -112,38 +113,38 @@ if ((isset($options['i']) || isset($options['input'])) && (isset($options['o']) 
 	$encodingIn = mb_detect_encoding('input.csv');
 	$encodingOut = mb_detect_encoding('output.csv');
 
-	//for ($i = 0; $data = fgetcsv($inputRead, 1000, ","); $i++) {
-	while (($data = fgetcsv($inputRead, 0, Delimiter($options))) !== false) {
+	for ($i = 0; $data = fgetcsv($inputRead, 1000, Delimiter($options)); $i++) {
 
 		if ($row == 1) {
 			if (isset($options['skip'])) {
 				$row++;
 				continue;
 
-			}
+				}
+		}
 
-			foreach ($data as $k => $v) {
-				if (!array_key_exists($k, $arrFromConf)) {
-					$dataFileOutput[$k] = $v;
+			foreach ($data as $key => $value) {
+				if (!array_key_exists($key, $arrFromConf)) {
+					$dataFileOutput[$key] = $value;
 				} else {
-					$newconf = $arrFromConf[$k];
+					$newconf = $arrFromConf[$key];
 					if (is_null($newconf)) {
-						$dataFileOutput[$k] = "";
+						$dataFileOutput[$key] = "";
 					} elseif (strtolower(gettype($newconf)) == "string") {
 						try {
-							$dataFileOutput[$k] = $faker->$newconf;
+							$dataFileOutput[$key] = $faker->$newconf;
 						} catch (Exception $e) {
 							echo 'Выброшено исключение: ', $e->getMessage(), "\n";
 						}
 					} elseif (gettype($newconf) == "object") {
 						try {
-							$dataFileOutput[$k] = $newconf($v, $data, $row, $faker);
+							$dataFileOutput[$key] = $newconf($value, $data, $row, $faker);
 						} catch (Exception $e) {
 							echo 'Выброшено исключение: ', $e->getMessage(), "\n";
 						}
 					} else {
 						try {
-							$dataFileOutput[$k] = $v;
+							$dataFileOutput[$key] = $value;
 						} catch (Exception $e) {
 							echo 'Выброшено исключение: ', $e->getMessage(), "\n";
 						}
@@ -153,9 +154,8 @@ if ((isset($options['i']) || isset($options['input'])) && (isset($options['o']) 
 
 
 			fputcsv($outWrite, $dataFileOutput, Delimiter($options));
-		}
-	}
 
+	}
 
 	echo "Запись в файл успешно произведена. \n";
 	echo "Входной файл имеет кодировку: $encodingIn \n";
