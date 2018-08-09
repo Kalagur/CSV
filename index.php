@@ -1,5 +1,6 @@
 <?php
 
+require_once 'functions.php';
 require_once __DIR__ . '/vendor/autoload.php';
 $faker = Faker\Factory::create('en_EN');
 
@@ -99,67 +100,72 @@ if ((isset($options['i']) || isset($options['input'])) && (isset($options['o']) 
 	}
 
 	$arrFromConf = include $config;
-	$row = 1;
 
-	$inputRead = fopen($options['i'], "r") or die("Ошибка");
+
+	$inputRead = fopen($input, "r") or die("Ошибка");
 	$outWrite = fopen($output, "w") or die("Ошибка");
 
 	if(!is_writable($output)) {
 		echo "Выходной файл недоступен для записи. \n";
 	}
-
+	$row = 1;
 	$encodingIn = mb_detect_encoding('input.csv');
 	$encodingOut = mb_detect_encoding('output.csv');
 
-	for ($i = 0; $data = fgetcsv($inputRead, 1000, ","); $i++) {
+	//for ($i = 0; $data = fgetcsv($inputRead, 1000, ","); $i++) {
+	while (($data = fgetcsv($inputRead, 0, Delimiter($options))) !== false) {
 
-		if($row == 1) {
-			if(isset($options['skip'])) {
+		if ($row == 1) {
+			if (isset($options['skip'])) {
 				$row++;
 				continue;
-			}
-		}
 
-		foreach ($data as $k => $v) {
-			if (!array_key_exists($k, $arrFromConf)) {
-				$dataFileOutput[$k] = $v;
-			} else {
-				$newconf = $arrFromConf[$k];
-				if (is_null($newconf)) {
-					$dataFileOutput[$k] = "";
-				} elseif (strtolower(gettype($newconf)) == "string") {
-					try {
-						$dataFileOutput[$k] = $faker->$newconf;
-					} catch (Exception $e) {
-						echo 'Выброшено исключение: ', $e->getMessage(), "\n";
-					}
-				} elseif (gettype($newconf) == "object") {
-					try {
-						$dataFileOutput[$k] = $newconf($v, $data, $row, $faker);
-					} catch (Exception $e) {
-						echo 'Выброшено исключение: ', $e->getMessage(), "\n";
-					}
+			}
+
+			foreach ($data as $k => $v) {
+				if (!array_key_exists($k, $arrFromConf)) {
+					$dataFileOutput[$k] = $v;
 				} else {
-					try {
-						$dataFileOutput[$k] = $v;
-					} catch (Exception $e) {
-						echo 'Выброшено исключение: ', $e->getMessage(), "\n";
+					$newconf = $arrFromConf[$k];
+					if (is_null($newconf)) {
+						$dataFileOutput[$k] = "";
+					} elseif (strtolower(gettype($newconf)) == "string") {
+						try {
+							$dataFileOutput[$k] = $faker->$newconf;
+						} catch (Exception $e) {
+							echo 'Выброшено исключение: ', $e->getMessage(), "\n";
+						}
+					} elseif (gettype($newconf) == "object") {
+						try {
+							$dataFileOutput[$k] = $newconf($v, $data, $row, $faker);
+						} catch (Exception $e) {
+							echo 'Выброшено исключение: ', $e->getMessage(), "\n";
+						}
+					} else {
+						try {
+							$dataFileOutput[$k] = $v;
+						} catch (Exception $e) {
+							echo 'Выброшено исключение: ', $e->getMessage(), "\n";
+						}
 					}
 				}
 			}
-		}
-		fputcsv($outWrite, $dataFileOutput);
 
+
+			fputcsv($outWrite, $dataFileOutput, Delimiter($options));
+		}
 	}
-	
+
+
 	echo "Запись в файл успешно произведена. \n";
 	echo "Входной файл имеет кодировку: $encodingIn \n";
 	echo "Выходной файл имеет кодировку: $encodingOut \n";
 
-	fclose($inputRead);
-	fclose($outWrite);
+
 }
 
+fclose($inputRead);
+fclose($outWrite);
 
 
 
