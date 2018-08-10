@@ -9,7 +9,9 @@
 
 3. Просмотреть справку
 > php index.php -h
+
 <br>или <br>
+
 > php index.php --help
 
 
