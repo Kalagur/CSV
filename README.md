@@ -10,7 +10,7 @@
 3. Просмотреть справку
 > php index.php -h
 
-<br>или <br>
+или 
 
 > php index.php --help
 
