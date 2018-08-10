@@ -1,6 +1,5 @@
 <?php
 
-
 function Delimiter($options)
 {
 	$delimiter = ",";
@@ -15,5 +14,5 @@ function Delimiter($options)
 	return $delimiter;
 }
 
-?>
+
 
