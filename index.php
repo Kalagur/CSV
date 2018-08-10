@@ -72,6 +72,7 @@ if ((isset($options['i']) || isset($options['input'])) && (isset($options['o']) 
 
 	if(!is_readable($config)) {
 		echo "Конфигурационный файл недоступен для чтения или его не существует. \n";
+		exit();
 	}
 
 	if(!file_exists($config)) {
@@ -108,6 +109,7 @@ if ((isset($options['i']) || isset($options['input'])) && (isset($options['o']) 
 
 	if(!is_writable($output)) {
 		echo "Выходной файл недоступен для записи. \n";
+		exit();
 	}
 	$row = 1;
 	$encodingIn = mb_detect_encoding('input.csv');
