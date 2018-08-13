@@ -98,8 +98,8 @@ if ($expansionConf != "php") {
      exit(1);
 }
 
-$basenameConf = basename('conf.php');
-if ($basenameConf != "conf.php") {
+$basenameConf = basename('Conf.php');
+if ($basenameConf != "Conf.php") {
      echo "Неправильное имя файла конфигурации. \n";
      exit(1);
 }
