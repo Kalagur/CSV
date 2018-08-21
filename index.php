@@ -57,6 +57,7 @@ if (isset($options['s']) || isset($options['strict'])) {
         $stNum = count($stData);
     }
     fclose($strictOpen);
+
     if ($stNum == 4) {
         echo "Исходный файл содержит необходимое количество столбцов. \n";
     } else {
@@ -118,6 +119,7 @@ if ((isset($options['i']) || isset($options['input']))
         exit(1);
     }
 
+    $eol = detectEOL($input);
     $row = 1;
     $encodingIn = mb_detect_encoding('input.csv');
     $encodingOut = mb_detect_encoding('output.csv');
@@ -163,6 +165,7 @@ if ((isset($options['i']) || isset($options['input']))
                 }
             }
         }
+        fputcsv_eol($outWrite, $dataFileOutput, $eol, Delimiter($options));
         fputcsv($outWrite, $dataFileOutput, Delimiter($options));
     }
 
