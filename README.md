@@ -47,9 +47,6 @@
     php index.php -i input.csv -c conf.php -o output.csv
     ```
     
-    ```
-    php index.php --help
-    ```
 6. Проверить работу программы можно командой:
     ```
     php index.php -i input.csv -c conf.php -o output.csv
