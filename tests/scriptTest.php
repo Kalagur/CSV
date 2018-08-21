@@ -4,7 +4,7 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 
-class scriptTest extends TestCase
+class ScriptTest extends TestCase
 {
     private $path;
 
@@ -20,7 +20,12 @@ class scriptTest extends TestCase
     public function testParam($expected, $arrayParams)
     {
         $pathToScript = $this->path;
-        exec("php " . $pathToScript . " " . implode(" ", $arrayParams), $someArr, $res);
+        exec(
+            "php " . $pathToScript . " " .
+            implode(" ", $arrayParams),
+            $someArr,
+            $res
+        );
 
         $this->assertEquals($expected, $res == 0);
     }
@@ -52,15 +57,35 @@ class scriptTest extends TestCase
 
 
             [true, ["-i $pathInput", "-c $pathConfig", "-o $pathOutput"]],
-            [true, ["-i $pathInput", "-c $pathConfig", "-o $pathOutput", "--strict"]],
-            [true, ["-i $pathInput", "-c $pathConfig", "-o $pathOutput", "--skip-first"]],
-            [true, ["-i $pathInput", "-c $pathConfig", "-o $pathOutput", "--skip-first", "--strict"]],
-            [true, ["-i $pathInput", "-c $pathConfig", "-o $pathOutput", "--strict", "--skip-firsst"]],
+            [
+                true,
+                ["-i $pathInput", "-c $pathConfig", "-o $pathOutput", "--strict"]
+            ],
+            [
+                true,
+                ["-i $pathInput", "-c $pathConfig", "-o $pathOutput", "--skip-first"]
+            ],
+            [
+                true,
+                [
+                    "-i $pathInput",
+                    "-c $pathConfig",
+                    "-o $pathOutput",
+                    "--skip-first",
+                    "--strict"
+                ]
+            ],
+            [
+                true,
+                [
+                    "-i $pathInput",
+                    "-c $pathConfig",
+                    "-o $pathOutput",
+                    "--strict",
+                    "--skip-firsst"
+                ]
+            ],
             [true, ["-i $pathInput", "-c $pathConfig", "-o $pathOutput", '-d ";"']],
-
-
         ];
     }
-
-
 }
