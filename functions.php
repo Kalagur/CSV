@@ -29,11 +29,20 @@ function detectEOL($input)
     return false;
 }
 
-
 function fputcsv_eol($file, $array, $eol, $delimiter = ',')
 {
     fputcsv($file, $array, $delimiter);
     if ("\n" != $eol && 0 === fseek($file, -1, SEEK_CUR)) {
         fwrite($file, $eol);
+    }
+}
+
+function checkParams($params)
+{
+    foreach (array_count_values($params) as $param) {
+        if ($param > 1) {
+            echo "Произошло дублирование параметров \n";
+            exit(1);
+        }
     }
 }

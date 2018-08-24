@@ -50,6 +50,7 @@ if (isset($options['h']) || isset($options['help'])) {
     exit(1);
 }
 
+checkParams($argv);
 
 if (isset($options['s']) || isset($options['strict'])) {
     $strictOpen = fopen($input, 'r');
@@ -119,10 +120,11 @@ if ((isset($options['i']) || isset($options['input']))
         exit(1);
     }
 
+
     $eol = detectEOL($input);
     $row = 1;
-    $encodingIn = mb_detect_encoding('input.csv');
-    $encodingOut = mb_detect_encoding('output.csv');
+    $encodingIn = mb_detect_encoding('input.csv', 'utf-8');
+    $encodingOut = mb_detect_encoding('output.csv', 'utf-8');
     for ($i = 0; $data = fgetcsv($inputRead, 1000, Delimiter($options));
          $i++) {
         if ($row == 1) {
@@ -166,7 +168,6 @@ if ((isset($options['i']) || isset($options['input']))
             }
         }
         fputcsv_eol($outWrite, $dataFileOutput, $eol, Delimiter($options));
-        fputcsv($outWrite, $dataFileOutput, Delimiter($options));
     }
 
     echo "Запись в файл успешно произведена. \n";
