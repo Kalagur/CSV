@@ -73,6 +73,16 @@ if ((isset($options['i']) || isset($options['input']))
     && (isset($options['o']) || isset($options['output']))
     && (isset($options['c']) || isset($options['config']))
 ) {
+    if(!is_readable($output)) {
+        echo "Невозможно прочитать выходной файл \n";
+        exit(1);
+    }
+
+    if(!is_writable($output)) {
+        echo "Невозможно записать в выходной файл \n";
+        exit(1);
+    }
+
     if (!is_readable($input)) {
         echo "Входной файл недоступен для чтения или его не существует. \n";
         exit(1);
