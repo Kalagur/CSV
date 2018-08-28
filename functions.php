@@ -37,7 +37,6 @@ function fputcsv_eol($file, $array, $eol, $delimiter = ',')
     } else {
         echo "Запись успешна \n";
     }
-    fputcsv($file, $array, $delimiter);
     if ("\n" != $eol && 0 === fseek($file, -1, SEEK_CUR)) {
         fwrite($file, $eol);
     }
