@@ -31,13 +31,13 @@ function detectEOL($input)
 
 function fputcsv_eol($file, $array, $eol, $delimiter = ',')
 {
+    if (!is_writable($file)) {
+        echo "Невозможно записать в выходной файл \n";
+        exit(1);
+    }
     fputcsv($file, $array, $delimiter);
     if ("\n" != $eol && 0 === fseek($file, -1, SEEK_CUR)) {
-        if (!fwrite($file, $eol) == false) {
-            fwrite($file, $eol);
-        } else {
-            echo "Произошла ошибка во время записи в файл \n";
-        }
+        fwrite($file, $eol);
     }
 }
 
