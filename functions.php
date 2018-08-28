@@ -33,7 +33,11 @@ function fputcsv_eol($file, $array, $eol, $delimiter = ',')
 {
     fputcsv($file, $array, $delimiter);
     if ("\n" != $eol && 0 === fseek($file, -1, SEEK_CUR)) {
-        fwrite($file, $eol);
+        if (!fwrite($file, $eol) == false) {
+            fwrite($file, $eol);
+        } else {
+            echo "Произошла ошибка во время записи в файл \n";
+        }
     }
 }
 
